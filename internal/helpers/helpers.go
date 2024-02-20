@@ -25,7 +25,7 @@ func WinLinePlusOne(i, reelLength int) int {
 	}
 }
 
-func ArrayAllSameValue(sortedStrs []string) (b bool, val string) {
+func ArrayAllSameValue(sortedStrs []string) (bool, string) {
 	for i := 0; i < len(sortedStrs); i++ {
 		if sortedStrs[i] != sortedStrs[0] {
 			return false, "No Win"
@@ -51,8 +51,9 @@ func StringPromptIntReturn(str string) (int, error) {
 	}
 
 	val, err := strconv.Atoi(strings.TrimSpace(s))
-	if err != nil {
-		return -1, errors.New("Error parsing input value, retry...")
+	if val <= 0 || err != nil {
+		err := errors.New("error parsing input value, please retry")
+		return -1, err
 	}
 
 	return val, nil

@@ -1,6 +1,8 @@
 package helpers
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestWinLineMinusOne(t *testing.T) {
 	type args struct {
@@ -23,6 +25,7 @@ func TestWinLineMinusOne(t *testing.T) {
 			want: 5,
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := WinLineMinusOne(tt.args.i, tt.args.reelLength); got != tt.want {
@@ -53,6 +56,7 @@ func TestWinLinePlusOne(t *testing.T) {
 			want: 0,
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := WinLinePlusOne(tt.args.i, tt.args.reelLength); got != tt.want {
@@ -91,6 +95,7 @@ func TestArrayAllSameValue(t *testing.T) {
 			wantVal: "No Win",
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotB, gotVal := ArrayAllSameValue(tt.args.sortedStrs)
@@ -99,32 +104,6 @@ func TestArrayAllSameValue(t *testing.T) {
 			}
 			if gotVal != tt.wantVal {
 				t.Errorf("ArrayAllSameValue() gotVal = %v, want %v", gotVal, tt.wantVal)
-			}
-		})
-	}
-}
-
-func TestStringPromptIntReturn(t *testing.T) {
-	type args struct {
-		str string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    int
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := StringPromptIntReturn(tt.args.str)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("StringPromptIntReturn() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("StringPromptIntReturn() = %v, want %v", got, tt.want)
 			}
 		})
 	}
