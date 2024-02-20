@@ -83,6 +83,8 @@ No, I only added some unit tests for the helper functions. Would like to have bu
 
 10. Get tests to run on startup and fail/alert if something went wrong
 
+11. App currently running through `go run main.go` + flags etc.   This of course would eventually be built into a executable binary file I imagine, so need to build that and determine how to run that with flags parameters or bundle those values in as a build of game "X" and a different set of parameters could be game "Y"
+
 **Bonus: Can different patterns be considered, other than the middle horizontal line?**
 
 Yeah absolutely, can I just focused on the one stated in the task.
