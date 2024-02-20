@@ -103,6 +103,10 @@ For example the above pattern may also be a winner (X's in a diagonal pattern). 
 
 ## Thanks
 
-First off, thank you for the opportunity. Irresppective of how I do I've learnt a lot and gave me a very interesting task to dig into and get back doing some Golang. Very much enjoyed it. I was feeling very rusty at Go and it's been great to get stuck into a set of interesting problems (lots of looking at the Go docs as I was frequently like "I know what i'm trying to do in my head, what's the idiomatic way to do this within the Go paradigm again).
+First off, thank you for the opportunity. Irresppective of how I do I've learnt a lot and gave me a very interesting task to dig into and get back doing some Golang. Very much enjoyed it. I was feeling very rusty at Go and its been great to get stuck into a set of interesting problems (lots of looking at the Go docs as I was frequently like "I know what i'm trying to do in my head, what's the idiomatic way to do this within the Go paradigm again).
 
 I would very much appreciate some feedback on how i've done, the good and the bad. As I'm always looking to improve and learn better ways to plan, layout code and solve problems.
+
+Look forward to chatting again
+
+Rob
