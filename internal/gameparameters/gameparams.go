@@ -12,6 +12,7 @@ import (
 	"sync"
 )
 
+// GameParams struct defines game parameters passed in through starting the app + user input post startup
 type GameParams struct {
 	reelCount          int
 	reelSymbolsLength  int
@@ -24,6 +25,7 @@ type GameParams struct {
 	winningLetter      string
 }
 
+// NewGameParams func parses info based on startup flags to populate and return struct
 func NewGameParams() *GameParams {
 	reelCount := flag.Int("reelCount", 4, "Amount of reels in this slot machine")
 	reelSymbolLength := flag.Int("reelSymbolLength", 6, "Amount of values in the reel itself")
@@ -63,6 +65,7 @@ func NewGameParams() *GameParams {
 	return gp
 }
 
+// Begin method prompts the user for input for their bet amount
 func (gp *GameParams) Begin() {
 	for {
 		betAmt, err := helpers.StringPromptIntReturn("Enter Betting Amount")
@@ -75,6 +78,7 @@ func (gp *GameParams) Begin() {
 	}
 }
 
+// Spin method "spins" the reels and places the results within the struct for later analysis
 func (gp *GameParams) Spin() {
 	spinResultSlice := make([]string, gp.reelCount)
 	spinResultPosition := make([]int, gp.reelCount)
@@ -99,6 +103,7 @@ func (gp *GameParams) Spin() {
 	gp.spinResultPosition = spinResultPosition
 }
 
+// OutputReels method outputs the resulting reel values/positions to the user
 func (gp *GameParams) OutputReels() {
 	fmt.Println("------------")
 
@@ -131,6 +136,7 @@ func (gp *GameParams) OutputReels() {
 	fmt.Println("------------")
 }
 
+// DetermineOutcome method does analysis on the reel values and determines whether the user has a winning spin and calculates the resulting amounts and outputs hose to the console.
 func (gp *GameParams) DetermineOutcome() {
 	sortedSlice := make([]string, 4)
 	copy(sortedSlice, gp.spinResult)
@@ -160,6 +166,7 @@ func (gp *GameParams) DetermineOutcome() {
 	}
 }
 
+// Cleanup method resets some of the values within the struct for subsequent spins to have a blank canvas to enter values into.
 func (gp *GameParams) Cleanup() {
 	gp.betAmount = 0
 	gp.spinResult = []string{}
