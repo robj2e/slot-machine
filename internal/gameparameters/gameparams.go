@@ -8,6 +8,7 @@ import (
 	"slot-machine/internal/helpers"
 	"sort"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -31,7 +32,6 @@ func NewGameParams() *GameParams {
 	reelVals := flag.Args()
 
 	reelSymbols := reelVals[:*reelSymbolLength]
-
 	reelMultipliers := reelVals[*reelSymbolLength:]
 
 	reelsWithValues := make([][]string, *reelCount)
@@ -60,8 +60,6 @@ func NewGameParams() *GameParams {
 		winner:            false,
 	}
 
-	fmt.Println(gp)
-
 	return gp
 }
 
@@ -87,9 +85,11 @@ func (gp *GameParams) Spin() {
 	for i := 0; i < gp.reelCount; i++ {
 		go func(spinResSlice []string, spinResPosSlice []int, reel []string, index int) {
 			defer wg.Done()
+
 			position := rand.IntN(gp.reelSymbolsLength)
 			spinResSlice[index] = reel[position]
 			spinResPosSlice[index] = position
+
 		}(spinResultSlice, spinResultPosition, gp.reelsWithValues[i], i)
 	}
 
@@ -99,39 +99,33 @@ func (gp *GameParams) Spin() {
 	gp.spinResultPosition = spinResultPosition
 }
 
-func (gp *GameParams) Cleanup() {
-	gp.betAmount = 0
-	gp.spinResult = []string{}
-	gp.spinResultPosition = []int{}
-	gp.winner = false
-	gp.winningLetter = ""
-
-	fmt.Println("Starting fresh round...")
-}
-
 func (gp *GameParams) OutputReels() {
 	fmt.Println("------------")
-	topRow := fmt.Sprintf("%s %s %s %s",
+
+	topRow := strings.Join([]string{
 		gp.reelsWithValues[1][helpers.WinLineMinusOne(gp.spinResultPosition[0], gp.reelSymbolsLength)],
 		gp.reelsWithValues[1][helpers.WinLineMinusOne(gp.spinResultPosition[1], gp.reelSymbolsLength)],
 		gp.reelsWithValues[1][helpers.WinLineMinusOne(gp.spinResultPosition[2], gp.reelSymbolsLength)],
-		gp.reelsWithValues[1][helpers.WinLineMinusOne(gp.spinResultPosition[3], gp.reelSymbolsLength)])
+		gp.reelsWithValues[1][helpers.WinLineMinusOne(gp.spinResultPosition[3], gp.reelSymbolsLength)],
+	}, " ")
 
 	fmt.Println(topRow)
 
-	winRow := fmt.Sprintf("%s %s %s %s",
+	winRow := strings.Join([]string{
 		gp.spinResult[0],
 		gp.spinResult[1],
 		gp.spinResult[2],
-		gp.spinResult[3])
+		gp.spinResult[3],
+	}, " ")
 
 	fmt.Println(winRow)
 
-	bottomRow := fmt.Sprintf("%s %s %s %s",
+	bottomRow := strings.Join([]string{
 		gp.reelsWithValues[1][helpers.WinLinePlusOne(gp.spinResultPosition[0], gp.reelSymbolsLength)],
 		gp.reelsWithValues[1][helpers.WinLinePlusOne(gp.spinResultPosition[1], gp.reelSymbolsLength)],
 		gp.reelsWithValues[1][helpers.WinLinePlusOne(gp.spinResultPosition[2], gp.reelSymbolsLength)],
-		gp.reelsWithValues[1][helpers.WinLinePlusOne(gp.spinResultPosition[3], gp.reelSymbolsLength)])
+		gp.reelsWithValues[1][helpers.WinLinePlusOne(gp.spinResultPosition[3], gp.reelSymbolsLength)],
+	}, " ")
 
 	fmt.Println(bottomRow)
 	fmt.Println("------------")
@@ -149,24 +143,29 @@ func (gp *GameParams) DetermineOutcome() {
 	}
 
 	win, val := helpers.ArrayAllSameValue(sortedSlice)
+
 	if win {
 		gp.winner = true
 		gp.winningLetter = val
-	} else {
-		gp.winner = false
-		gp.winningLetter = val
-	}
-
-	if gp.winner {
 		multiplier := gp.payTable[gp.winningLetter]
 		multiplierOutput := fmt.Sprintf("Multiplier: %d", multiplier)
 		fmt.Println(multiplierOutput)
 		amountWon := fmt.Sprintf("Amount Won: %d\n", gp.betAmount*multiplier)
 		fmt.Println(amountWon)
-
 	} else {
+		gp.winner = false
+		gp.winningLetter = val
 		fmt.Println("Multiplier: 0")
 		fmt.Println("Amount Won: 0")
 	}
+}
 
+func (gp *GameParams) Cleanup() {
+	gp.betAmount = 0
+	gp.spinResult = []string{}
+	gp.spinResultPosition = []int{}
+	gp.winner = false
+	gp.winningLetter = ""
+
+	fmt.Println("Starting fresh round...")
 }
