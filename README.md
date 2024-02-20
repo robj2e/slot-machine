@@ -17,6 +17,8 @@ So to run the application as intended for this task.
 
 `go run main.go -reelCount=4 -reelSymbolLength=6 A K Q J 10 X 20 15 10 5 2 0`
 
+**main.go is found within the cmd/main directory.**
+
 Flag values are converted to integers once within the app itself.
 
 ## Structure
